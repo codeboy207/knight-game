@@ -1,18 +1,27 @@
 
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest");
+	love.window.setMode(50 * 16, 20 * 16);
 	player = require("player");
-	world = require("physics");
-	killZone = world:newRectangleCollider(0, love.graphics.getHeight() - 10, love.graphics.getWidth(), 10);
-	killZone:setType("static");
+	physics = require("physics");
+	worldMap = require("tilemap");
+	camera = require("camera");
+	killzone = require("killzone");
+	platforms = require("platforms");
 end
 
 function love.update(dt)
 	player.update(dt);
-	world:update(dt);
+	physics:update(dt);
+	worldMap:update(dt);
+	camera.update(dt);
 end
 
 function love.draw()
-	player.animations.idle:draw(player.spriteSheet, player.x, player.y, nil, 2, nil, 16, 16);
-	world:draw();
+	camera.init:attach()
+		worldMap:drawLayer(worldMap.layers["background"]);
+		worldMap:drawLayer(worldMap.layers["trees"]);
+		worldMap:drawLayer(worldMap.layers["midground"]);
+		player.animations.idle:draw(player.spriteSheet, player.x, player.y, nil,nil, nil, 16, 16);
+	camera.init:detach()
 end

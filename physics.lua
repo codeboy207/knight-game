@@ -2,9 +2,9 @@
 
 windfield = require("libraries/windfield");
 
-world = windfield.newWorld(0, 0, true);
-world:setGravity(0, 800);
+physics = windfield.newWorld(0, 0, true);
+physics:setGravity(0, 800);
 
-return world;
+return physics;
 
 
